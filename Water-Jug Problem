@@ -1,0 +1,46 @@
+class water:
+    def __init__(self , big , small , target):
+        self.big=big
+        self.small=small
+        self.target=target
+    def check(self , a,b):
+        if a>0 and b>0 :
+            return
+    def newstate(self,frontier , a, b):
+            while self.check(a , b):
+                frontier.append((a,b))
+    def filla(self , frontier , curr_path , a ,b):
+        self.newstate(frontier , big , b)
+    def fillb(self ,frontier , curr_path , a, b):
+        self.newstate(frontier , a , small)
+    def emptya(self , frontier , curr_path, a , b):
+        self.newstate(frontier , 0 ,b )
+    def emptyb(self,frontier ,curr_path , a ,b):
+        self.newstate(frontier , a ,0)
+    def transferab(self , frontier ,curr_path ,  a,b):
+        self.newstate(frontier , a-(small-b) , b)
+    def transferba(self , frontier ,curr_path , a ,b):
+        self.newstate(frontier , a , b-(big-a))
+    def func(self):
+        explored=set()
+        frontier=[(0,0,[])]
+        while frontier:
+            a,b,path=frontier.pop(0)
+            while (a,b) not in frontier and (a,b) not in explored:
+                explored.add((a,b))
+                curr_path = path+([a,b])
+                if a==target or b==target:
+                    print("Target acheived")
+                    print(path+[(a,b)])
+                if a!= target and b!=target:
+                    self.filla(frontier , curr_path , a , b)
+                    self.fillb(frontier , curr_path ,a ,b)
+                    self.emptya(frontier , curr_path , a ,b)
+                    self.emptyb(frontier , curr_path , a ,b)
+                    self.transferab(frontier , curr_path , a, b)
+                    self.transferba(frontier , curr_path ,a ,b)
+                
+big=int(input("enter capacity of jug1"))
+small= int(input("enter capacity of jug2"))
+target= int(input("Enter target"))
+water(big,small,target).func()
